@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>js dom</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+        }
+
+        table {
+            border: 1px solid yellow;
+            font-size: large;
+            text-align: center;
+        }
+
+        th,
+        tr,
+        td {
+            border: 1px solid #ddd;
+            padding: 5px;
+        }
+
+        button {
+            background-color: aqua;
+        }
+    </style>
+</head>
+
+<body>
+    <center>
+        <div id="root">
+            <h1>hello</h1>
+        </div>
+        <button type="submit" id="submit">Filter TODOS</button>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>userID</th>
+                        <th>Title</th>
+                        <th>Completed</th>
+
+                    </tr>
+
+                </thead>
+                <tbody id="myTable">
+
+                </tbody>
+            </table>
+        </div>
+    </center>
+</body>
+
+<script>
+    var d;
+    async function main() {
+        try {
+            const res = await axios.get("https://jsonplaceholder.typicode.com/todos");
+            d = res.data;
+            create(d);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    function create(d) {
+        let table = document.querySelector("#myTable");
+       
+        d.forEach((ele, i) => {
+           
+            let row = table.insertRow(i);
+            row.insertCell(0).innerHTML = ele.id;
+            row.insertCell(1).innerHTML = ele.userId;
+            row.insertCell(2).innerHTML = ele.title;
+            row.insertCell(3).innerHTML = ele.completed;
+        });
+    }
+    
+
+
+
+    main()
+    var flag = true;
+    let submit = document.querySelector("#submit");
+    submit.addEventListener("click",()=>{
+        document.getElementById("myTable").replaceChildren();
+        const filteredData = d.filter(ele => ele.completed == flag);
+        flag = !flag;
+        create(filteredData);
+    })
+
+</script>
+
+</html>

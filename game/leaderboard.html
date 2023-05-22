@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title> LeaderBoard </title>
+</head>
+<body>
+    <center>
+        <div id = "root">
+            <h1>Leaderboard</h1>
+            <button type="submit" id="submit"> GO back</button> 
+        </div>
+      
+        <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Attempt</th>
+                    <th>Name</th>
+                   </tr>
+                </thead>
+            <tbody id = "myTable">
+        
+            </tbody>
+        </table>
+    </div>
+    </center>
+</body>
+<script>
+let submit = document.querySelector("#submit");
+submit.addEventListener("click",goback);
+function goback(){
+    return location.href = "index.html";
+}
+     const leaderBoard  = JSON.parse(localStorage.getItem("leaderboard"));
+    
+   leaderBoard.forEach((ele,i)=>{
+    let table = document.querySelector("#myTable");
+    let row = table.insertRow(i);
+    row.insertCell(0).innerHTML = i+1;
+    row.insertCell(1).innerHTML = ele.attempts;
+    row.insertCell(2).innerHTML = ele.players;
+   })
+
+</script>
+</html>

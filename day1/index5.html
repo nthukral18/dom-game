@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>js dom</title>
+    <style>
+        body{
+            background-color : black;
+            color : white;
+        }
+        table{
+            border : 1px solid yellow;
+            font-size : large;
+            text-align : center;
+        }
+
+        th, tr , td{
+            border : 1px solid #ddd;
+            padding : 5px;
+        }
+    </style>
+</head>
+<body>
+    <center>
+        <div id = "root">
+            <h1>hello</h1>
+        </div>
+        <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                   
+                    <th>Phone</th>
+                    <th>Website</th>
+                    <th>Company</th>
+                    <th>Lat</th>
+                    <th>Long</th>
+                </tr>
+                
+            </thead>
+            <tbody id = "myTable">
+
+            </tbody>
+        </table>
+    </div>
+    </center>
+</body>
+<script>
+    async function main(){
+        try{
+        const res = await axios.get("https://jsonplaceholder.typicode.com/users");
+        res.data.forEach((ele,i)=>{
+          let table = document.querySelector("#myTable");
+          let row = table.insertRow(i);
+           row.insertCell(0).innerHTML = ele.id;
+           row.insertCell(1).innerHTML = ele.name;
+           row.insertCell(2).innerHTML = ele.username;
+           row.insertCell(3).innerHTML = ele.email;
+           row.insertCell(4).innerHTML = ele.address.city;
+          
+           row.insertCell(5).innerHTML = ele.phone;
+           row.insertCell(6).innerHTML = ele.website;
+         
+           row.insertCell(7).innerHTML = ele.company.name;
+           row.insertCell(8).innerHTML = ele.address.geo.lat;
+           row.insertCell(9).innerHTML = ele.address.geo.lng;
+
+
+
+        } );
+
+       
+       
+        
+        } catch(error){
+            
+        }
+    }
+
+    main()
+</script>
+</html>

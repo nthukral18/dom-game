@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>treasure hunt</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <center>
+        <section class = "score-card">
+            <h1> Hey<span id = "fname"></span> </h1>
+            <h1> Attempts : <span id = "score"> </span></h1>
+
+        </section>
+        <table id = "myTable"></table>
+    </center>
+</body>
+<script>
+    if(!localStorage.getItem("leaderboard")){
+        localStorage.setItem("leaderboard",JSON.stringify([]))
+    }
+    const leaderBoard  = JSON.parse(localStorage.getItem("leaderboard"));
+    
+    function main(){
+        let fname = prompt("enter your name");
+        document.getElementById("fname").innerText = fname;
+        let tbl = document.querySelector("#myTable");
+        let data = [];
+              for(let i = 0;i<100;i++){
+                data[i] = i+1
+              }  
+              data.sort((a,b)=> 0.5 - Math.random())
+              var counter = 0;
+              for (let i = 1; i <= 10; i++){
+                let row = document.createElement("tr");
+                for (let j = 1; j <= 10; j++) {
+                let cell = document.createElement("td");
+                cell.setAttribute("id",data[counter]) ;
+                cell.style.cursor = "pointer";
+                counter++;
+                cell.addEventListener("click",onClickHandler);
+                row.appendChild(cell);
+              }
+              tbl.appendChild(row);
+            }
+        
+        
+    }
+ main()
+ function onClickHandler(e){
+    if (e.target.style.backgroundColor == "yellow") return;
+    const primes = [ 2, 3, 5, 7, 11, 13];
+    let score = document.getElementById("score");
+    let clickedNum = e.target.id;
+    if(+clickedNum === 1){
+       score.innerText = ++(score.innerText);
+       let userData = {
+        fname : document.getElementById("fname").innerText,
+        attempts : score.innerText
+       }
+       doRanking(userData)
+
+       
+       alert("you won");
+       return location.href = "leaderboard.html";
+    }
+    if(primes.includes(+clickedNum)){
+        document.getElementById(clickedNum).style.backgroundColor = "red";
+        alert("you lost");
+        return location.reload();
+    }
+   
+    for(let i = clickedNum ;i <= 100 ;i++){
+        if( i % clickedNum == 0){
+            document.getElementById(i).style.backgroundColor = "yellow";
+        }
+        
+    }
+     score.innerText = ++(score.innerText);
+ }
+
+ function doRanking(newWinner){
+   const indexFound = leaderBoard.findIndex(ele => ele.attempts == newWinner.attempts);
+   if(indexFound == -1){
+    leaderBoard.push({ attempts : newWinner.attempts , players : [ newWinner.fname]})
+   }
+   else{
+    leaderBoard[indexFound].players.push(newWinner.fname);
+   }
+   leaderBoard.sort((a,b)=> a.attempts - b.attempts)
+
+   localStorage.setItem("leaderboard",JSON.stringify(leaderBoard))
+ }
+ </script>
+</html>

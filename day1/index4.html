@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: aqua;
+        }
+
+        h1 {
+            color: crimson;
+        }
+
+        .outer {
+            margin: 200px auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="outer">
+        <h1>Enter your Text</h1>
+        <textarea name="" id="hey" cols="30" rows="10"></textarea>
+        <br>
+        <select name="fonts" id="xyz">
+            <option value="Courier">Courier</option>
+            <option value="Times new roman">Times new roman</option>
+        </select>
+        <button type="submit" id="submit">Change</button>
+        <h2>Formatted Text is : </h2>
+        <div id="output"></div>
+    </div>
+</body>
+<script>
+    let submit = document.querySelector("#submit");
+    let desiredText = document.querySelector("#xyz");
+    function myFunc() {
+        let input = document.querySelector("#hey");
+
+
+        let data = document.querySelector("#output");
+        data.innerHTML = input.value;
+        data.style.fontFamily = desiredText.value;
+    }
+
+    desiredText.addEventListener("change",myFunc)
+    submit.addEventListener("click", myFunc)
+
+</script>
+
+</html>
